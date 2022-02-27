@@ -173,10 +173,34 @@ void SetupRandomPalette();
 void SetupBlackAndWhiteStripedPalette();
 void SetupPurpleAndGreenPalette();
 void ChangePaletteAndSettingsPeriodically();
+int idFondo = 0;
+bool updateColorClock = false; 
 // update fondo para mostrar luego de refresh
 void MatrixRGB::fondoUpdate(){
 	// Periodically choose a new palette, speed, and scale
 	ChangePaletteAndSettingsPeriodically();
+  if( updateColorClock ){
+    if (idFondo == 0) { // RainbowColors_p
+      setColorClock(0,0,0); // black
+    }else if (idFondo == 1)  { // SetupPurpleAndGreenPalette
+      setColorClock(255,255,255); // white
+    }else if( idFondo == 4 ){ // CloudColors_p
+      setColorClock(0,255,0); // verde
+    }else if(idFondo == 5 ){ // LavaColors_p
+      setColorClock(0,0,0); // black
+    }else if( idFondo == 6 ){ // OceanColors_p
+      setColorClock(255,0,0); // red
+    }else if( idFondo == 7 ){ // PartyColors_p
+      setColorClock(0,0,0); // negro
+    }else if( idFondo == 8 || idFondo == 9 || idFondo == 10){ // SetupRandomPalette
+      setColorClock(random8(),random8(),random8());      // set random color
+    }else if( idFondo == 11 ){ // RainbowStripeColors_p
+      setColorClock(255,255,255);
+    }else{
+      setColorClock(0,0,255); // default color BLUE
+    }
+    updateColorClock = false;
+  }
 	// generate noise data
 	fillnoise8();
 	// convert the noise data to colors in the LED array
@@ -193,24 +217,24 @@ unsigned long previousTime = millis();
 const unsigned long interval = 300;
 
 void ChangePaletteAndSettingsPeriodically(){
-
   uint8_t secondHand = ((millis() / 1000) / HOLD_PALETTES_X_TIMES_AS_LONG) % 60;
   static uint8_t lastSecond = 99;
 
   if( lastSecond != secondHand) {
     lastSecond = secondHand;
-    if( secondHand ==  0)  { currentPalette = RainbowColors_p;         speed = 10; scale = 30; colorLoop = 1; }
-    if( secondHand ==  5)  { SetupPurpleAndGreenPalette();             speed = 10; scale = 50; colorLoop = 1; }
-    if( secondHand == 10)  { SetupBlackAndWhiteStripedPalette();       speed = 10; scale = 30; colorLoop = 1; }
-    if( secondHand == 15)  { currentPalette = ForestColors_p;          speed =  2; scale =120; colorLoop = 0; }
-    if( secondHand == 20)  { currentPalette = CloudColors_p;           speed =  1; scale = 40; colorLoop = 0; }
-    if( secondHand == 25)  { currentPalette = LavaColors_p;            speed =  4; scale = 50; colorLoop = 0; }
-    if( secondHand == 30)  { currentPalette = OceanColors_p;           speed = 5; scale = 90; colorLoop = 0; }
-    if( secondHand == 35)  { currentPalette = PartyColors_p;           speed = 10; scale = 30; colorLoop = 1; }
-    if( secondHand == 40)  { SetupRandomPalette();                     speed = 10; scale = 20; colorLoop = 1; }
-    if( secondHand == 45)  { SetupRandomPalette();                     speed = 25; scale = 50; colorLoop = 1; }
-    if( secondHand == 50)  { SetupRandomPalette();                     speed = 40; scale = 90; colorLoop = 1; }
-    if( secondHand == 55)  { currentPalette = RainbowStripeColors_p;   speed = 10; scale = 20; colorLoop = 1; }
+    if( secondHand ==  0)  { currentPalette = RainbowColors_p;         idFondo = 0; speed = 10; scale = 30; colorLoop = 1; }
+    if( secondHand ==  5)  { SetupPurpleAndGreenPalette();             idFondo = 1; speed = 10; scale = 50; colorLoop = 1; }
+    if( secondHand == 10)  { SetupBlackAndWhiteStripedPalette();       idFondo = 2; speed = 10; scale = 30; colorLoop = 1; }
+    if( secondHand == 15)  { currentPalette = ForestColors_p;          idFondo = 3; speed =  2; scale =120; colorLoop = 0; }
+    if( secondHand == 20)  { currentPalette = CloudColors_p;           idFondo = 4; speed =  1; scale = 40; colorLoop = 0; }
+    if( secondHand == 25)  { currentPalette = LavaColors_p;            idFondo = 5; speed =  4; scale = 50; colorLoop = 0; }
+    if( secondHand == 30)  { currentPalette = OceanColors_p;           idFondo = 6; speed = 5; scale = 90; colorLoop = 0; }
+    if( secondHand == 35)  { currentPalette = PartyColors_p;           idFondo = 7; speed = 10; scale = 30; colorLoop = 1; }
+    if( secondHand == 40)  { SetupRandomPalette();                     idFondo = 8; speed = 10; scale = 20; colorLoop = 1; }
+    if( secondHand == 45)  { SetupRandomPalette();                     idFondo = 9; speed = 25; scale = 50; colorLoop = 1; }
+    if( secondHand == 50)  { SetupRandomPalette();                     idFondo = 10; speed = 40; scale = 90; colorLoop = 1; }
+    if( secondHand == 55)  { currentPalette = RainbowStripeColors_p;   idFondo = 11; speed = 10; scale = 20; colorLoop = 1; }
+    updateColorClock = true;
   }
 }
 

@@ -2,6 +2,7 @@
 #include <ESP8266WiFiMulti.h>
 #include <ArduinoOTA.h>
 #include <WiFiUdp.h>
+
 #include "wifiCredentials.h"
 /* #define SSID1 "wifi-2.4GHz"
 #define PASSWORD1 "123"
@@ -115,7 +116,7 @@ void loop() {
 
   // MATRIX RGB
   CHAMATRIX.fondoUpdate();
-  CHAMATRIX.setTime(horas, mins, segs);
+  CHAMATRIX.setTime(segs, mins, horas);
   CHAMATRIX.mostrarClock();
   //refresh matrix
 	CHAMATRIX.refresh(); 
