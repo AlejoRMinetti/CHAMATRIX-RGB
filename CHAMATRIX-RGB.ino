@@ -119,9 +119,20 @@ void loop() {
   CHAMATRIX.setTime(segs, mins, horas);
   CHAMATRIX.mostrarClock();
   //refresh matrix
-	CHAMATRIX.refresh(); 
-}
+	CHAMATRIX.refresh();
 
+  // horarios de encendido y apagado
+  if (horas == 11 && mins == 0 && segs == 0) {
+    CHAMATRIX.encender();
+  }else if (horas == 14 && mins == 0 && segs == 0) {
+    CHAMATRIX.apagar();
+  }else if (horas == 18 && mins == 0 && segs == 0) {
+    CHAMATRIX.encender();
+  }else if (horas == 23 && mins == 0 && segs == 0) {
+    CHAMATRIX.apagar();
+  }
+  
+}
 
 /*__________________________________________________________SETUP_FUNCTIONS__________________________________________________________*/
 
