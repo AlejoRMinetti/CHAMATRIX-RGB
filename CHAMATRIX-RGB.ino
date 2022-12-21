@@ -4,14 +4,9 @@
 #include <WiFiUdp.h>
 
 #include "wifiCredentials.h"
-/* #define SSID1 "wifi-2.4GHz"
-#define PASSWORD1 "123"
-#define SSID2 "wifi-5GHz"
-#define PASSWORD2 "234" */
-
+#include "LEDbuildin.h"
 #include "MatrixRGB.h"
 
-const byte led = BUILTIN_LED;
 MatrixRGB CHAMATRIX;
 
 /////////// wifi & web
@@ -33,8 +28,7 @@ byte NTPBuffer[NTP_PACKET_SIZE]; // buffer to hold incoming and outgoing packets
 
 void setup() {
   // blinker led
-  pinMode(BUILTIN_LED, OUTPUT);
-  digitalWrite(led, 0); // led ON
+  setupLEDbuildin();
   
   // Start the Serial communication to send messages to the computer
   Serial.begin(115200);         
@@ -58,15 +52,8 @@ void setup() {
   ///////////////// MATRIX LED setup
   CHAMATRIX.begin();
 
-  // blink finish setup
-  digitalWrite(led, !digitalRead(led));  // Change the state of the LED
-  delay(200);
-  digitalWrite(led, !digitalRead(led));  // Change the state of the LED
-  delay(200);
-  digitalWrite(led, !digitalRead(led));  // Change the state of the LED
-  delay(200);
-  digitalWrite(led, 1); // led OFF
-
+  // blink setup finish, heart beat on
+  finishSetupLEDbuildin();
 }
 
 /*__________________________________________________________LOOP__________________________________________________________*/
